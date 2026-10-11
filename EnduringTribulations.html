@@ -7,38 +7,53 @@
    <!--The head section contains general information about the webpage.-->
    <title>Enduring Tribulations</title>
 
-   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"> </script>
+   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-   <style> 
-   
+       <style> 
        /*The style section controls how pieces of your webpage look.*/
-   </style>
+    body {
+        background-color: #ffe6ea; /* Soft pink for a calming background 🌸 */
+        color: #2b101c;            /* Dark plum for maximum contrast and readibility 📖 */
+        font-family: sans-serif;   /* Clean font to make reading effortless ⚡ */
+        h2 {
+    color: #6b1d3d; /* Deep rosewood to draw immediate focus 🏷️ */
+}
+    }
+</style>
 </head> 
 
 
 <body>
    <!--The body section contains the content of your webpage.-->
    <header>
-       <h2>Enduring Tribulations </h2>
-   </header> Are you feeling:
+       <h2>Enduring Tribulations</h2>
+   </header> 
+   
+   <p>Are you feeling:</p>
+
    <div x-data="webApp">
+      <!-- Each radio button uses x-model to track state and @change to run pickVerse() -->
+      <label>
+        <input type="radio" name="emotion" value="Stressed" x-model="radioChoice" @change="pickVerse()"> Stressed
+      </label>
+      <label>
+        <input type="radio" name="emotion" value="Sad" x-model="radioChoice" @change="pickVerse()"> Sad
+      </label>
+      <label>
+        <input type="radio" name="emotion" value="Anxious" x-model="radioChoice" @change="pickVerse()"> Anxious
+      </label>
+      <label>
+        <input type="radio" name="emotion" value="Discouraged" x-model="radioChoice" @change="pickVerse()"> Discouraged
+      </label>
+      <label>
+        <input type="radio" name="emotion" value="Angry" x-model="radioChoice" @change="pickVerse()"> Angry
+      </label>
+      <label>
+        <input type="radio" name="emotion" value="Fearful" x-model="radioChoice" @change="pickVerse()"> Fearful
+      </label>
 
-   <button><!-- Use the same x-model on each radio. -->
-<!-- @change and @click can be used with radio buttons. -->
-<label>
-  <input type="radio" name="season" value="Stressed" x-model="radioChoice"> Stressed
-</label>
-<label>
-  <input type="radio" name="season" value="Sad" x-model="radioChoice"> Sad
-</label>
-<label>
-  <input type="radio" name="season" value="Anxious" x-model="radioChoice"> Anxious
-</label>
-<label>
-  <input type="radio" name="season" value="Discouraged" x-model="radioChoice"> Discouraged
-</label>
-
-<p>Value of radioChoice: <span x-text="radioChoice"></span></p></button>
+      <!-- Displays the current verse picked by Alpine -->
+      <p><span x-text="currentVerse"></span></p>
    </div>
   
    <footer>
@@ -51,16 +66,47 @@
        //The script section contains the JavaScript logic
        document.addEventListener('alpine:init', () => {
            Alpine.data('webApp', () => ({
-               
+               radioChoice: '', // Tracks selected emotion
+               currentVerse: '', // Stores chosen verse text
 
+               verses: {
+                   Stressed: [
+                       "Philippians 4:6-7: Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+                       "1 Peter 5:7: Cast all your anxiety on Him because He cares for you."
+                   ],
+                   Sad: [
+                       "Psalm 34:18: The Lord is close to the brokenhearted and saves those who are crushed in spirit.",
+                       "Jeremiah 31:13: I will turn their mourning into laughter and their sadness into joy; I will comfort them."
+                   ],
+                   Anxious: [
+                       "Deuteronomy 31:8: The Lord Himself goes before you and will be with you; He will never leave you nor forsake you. Do not be afraid; do not be discouraged.",
+                       "Psalm 94:19: When anxiety was great within me, your consolation brought me joy."
+                   ],
+                   Discouraged: [
+                       "Joshua 1:9: Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.",
+                       "Galatians 6:9: Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up."
+                   ],
+                   Angry: [
+                       "James 1:19-20: Everyone should be quick to listen, slow to speak and slow to become angry, because human anger does not produce the righteousness that God desires.",
+                       "Proverbs 15:1: A gentle answer turns away wrath, but a harsh word stirs up anger."
+                   ],
+                   Fearful: [
+                       "2 Timothy 1:7: For God has not given us a spirit of fear, but of power and of love and of a sound mind..",
+                       "Psalm 56:3: When I am afraid, I put my trust in you.",
+                       "Psalm 23:4: Even when I walk through the darkest valley, I will not be afraid, for you are close beside me.",
+                       "Isaiah 41:10: So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand."
+                   ]
+               },
 
-
-
-
-
+               pickVerse() {
+                   let list = this.verses[this.radioChoice];
+                   if (list) {
+                       let randomIndex = Math.floor(Math.random() * list.length);
+                       this.currentVerse = list[randomIndex];
+                   }
+               }
            }));
        });
    </script>
 </body>
 </html>
-
